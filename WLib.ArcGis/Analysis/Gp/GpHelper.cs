@@ -74,6 +74,7 @@ namespace WLib.ArcGis.Analysis.Gp
                 gpResult = this.Execute(process, null) as IGeoProcessorResult;
                 IGPUtilities gpUilities = new GPUtilitiesClass();
                 message = GetGpMessage(gpResult);
+                
                 result = gpResult != null && gpResult.Status == esriJobStatus.esriJobSucceeded;
             }
             catch (Exception ex)

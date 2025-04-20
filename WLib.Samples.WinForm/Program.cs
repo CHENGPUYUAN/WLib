@@ -7,6 +7,7 @@ namespace WLib.Samples.WinForm
 {
     static class Program
     {
+        private static bool Login = false;
         private static readonly LicenseInitializer licenseInitializer = new LicenseInitializer();
         /// <summary>
         /// 应用程序的主入口点。
@@ -26,10 +27,13 @@ namespace WLib.Samples.WinForm
                 });
 
             //ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
-            Application.Run(new MainForm());
-            //Application.Run(new OleDbQueryForm());
-            //Application.Run(new ExportMapForm());
-            //Application.Run(new PathFolderBrowserDialog(@""));
+            LoginForm loginForm = new LoginForm();
+            loginForm.TopMost = true;
+
+            if (loginForm.ShowDialog() == DialogResult.OK)
+            {
+                Application.Run(new Main());
+            }
             licenseInitializer.ShutdownApplication();
         }
     }

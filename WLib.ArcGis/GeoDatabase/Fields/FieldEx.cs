@@ -149,9 +149,10 @@ namespace WLib.ArcGis.GeoDatabase.Fields
             IGeometryDefEdit sfGeoDefEdit = (IGeometryDefEdit)shapeField.GeometryDef;
 
             ISpatialReferenceFactory spatialRefFac = new SpatialReferenceEnvironmentClass();
-            IProjectedCoordinateSystem pcsSys = spatialRefFac.CreateProjectedCoordinateSystem(factoryCode);
 
-            sfGeoDefEdit.SpatialReference_2 = pcsSys;
+            //IProjectedCoordinateSystem pcsSys = spatialRefFac.CreateProjectedCoordinateSystem(factoryCode);
+
+            sfGeoDefEdit.SpatialReference_2 = featureClass.GetShapeField().GeometryDef.SpatialReference;
             System.Runtime.InteropServices.Marshal.ReleaseComObject(fieldChecker);
             System.Runtime.InteropServices.Marshal.ReleaseComObject(spatialRefFac);
             return outputFields;

@@ -100,7 +100,6 @@ namespace WLib.WinCtrls.PathCtrl
             this.workspaceSelector1.Location = new System.Drawing.Point(3, 3);
             this.workspaceSelector1.Name = "workspaceSelector1";
             this.workspaceSelector1.OptEnable = true;
-            this.workspaceSelector1.PathOrConnStr = "";
             this.workspaceSelector1.Size = new System.Drawing.Size(639, 32);
             this.workspaceSelector1.TabIndex = 3;
             this.workspaceSelector1.WorkspaceIndex = 0;

@@ -8,10 +8,11 @@
     <OutputType>Library</OutputType>
     <RootNamespace>WLib.WinCtrls.ArcGisCtrl</RootNamespace>
     <AssemblyName>WLib.WinCtrls.ArcGisCtrl</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -110,6 +111,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributeCtrl.cs">
@@ -181,6 +183,12 @@
     <Compile Include="WorkspaceSelector.designer.cs">
       <DependentUpon>WorkspaceSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="WorkspaceSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WorkspaceSelectorForm.Designer.cs">
+      <DependentUpon>WorkspaceSelectorForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AttributeCtrl.resx">
       <DependentUpon>AttributeCtrl.cs</DependentUpon>
     </EmbeddedResource>
@@ -201,6 +209,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MapViewer.resx">
       <DependentUpon>MapViewer.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="OleDbQueryForm.resx">
       <DependentUpon>OleDbQueryForm.cs</DependentUpon>
@@ -213,15 +222,20 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="SymbolSelectorForm.resx">
       <DependentUpon>SymbolSelectorForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TableListBox.resx">
       <DependentUpon>TableListBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WorkspaceSelector.resx">
       <DependentUpon>WorkspaceSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WorkspaceSelectorForm.resx">
+      <DependentUpon>WorkspaceSelectorForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

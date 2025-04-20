@@ -77,7 +77,6 @@
             this.axSymbologyControl1.Location = new System.Drawing.Point(0, 0);
             this.axSymbologyControl1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.axSymbologyControl1.Name = "axSymbologyControl1";
-            this.axSymbologyControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axSymbologyControl1.OcxState")));
             this.axSymbologyControl1.Size = new System.Drawing.Size(318, 462);
             this.axSymbologyControl1.TabIndex = 1;
             this.axSymbologyControl1.OnDoubleClick += new ESRI.ArcGIS.Controls.ISymbologyControlEvents_Ax_OnDoubleClickEventHandler(this.axSymbologyControl1_OnDoubleClick);

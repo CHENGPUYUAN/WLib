@@ -125,7 +125,7 @@ namespace WLib.WinCtrls.CodeGenerateCtrl
         private void btnSaveSettings_Click(object sender, EventArgs e)//保存到配置文件
         {
             var settings = new GeneratorSettings();
-            settings.DbType = (EDbProviderType)this.cmbDbTypes.SelectedIndex;
+            settings.DbType =  this.cmbDbTypes.SelectedIndex;
             settings.ConnectionString = this.txtConnectionStr.Text;
             settings.CSharpSavePath = this.txtCSavePath.Text;
 
