@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WLib.WinCtrls</RootNamespace>
     <AssemblyName>WLib.WinCtrls</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -284,15 +284,6 @@
     </Compile>
     <Compile Include="`Extension\ESelectPathType.cs" />
     <Compile Include="PathCtrl\EShowButtonOption.cs" />
-    <Compile Include="FileCtrl\Office\ExcelBase.cs" />
-    <Compile Include="FileCtrl\Office\IOfficeBase.cs" />
-    <Compile Include="FileCtrl\Office\OfficeEmbed.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="FileCtrl\Office\OfficeEmbed.designer.cs">
-      <DependentUpon>OfficeEmbed.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FileCtrl\Office\WordBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="InputCtrl\InputForm.cs">
       <SubType>Form</SubType>
