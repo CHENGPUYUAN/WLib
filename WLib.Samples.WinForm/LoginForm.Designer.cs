@@ -42,37 +42,35 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(91, 129);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(77, 131);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 12);
+            this.label1.Size = new System.Drawing.Size(52, 15);
             this.label1.TabIndex = 0;
             this.label1.Text = "用户名";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(91, 154);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(77, 176);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 12);
+            this.label2.Size = new System.Drawing.Size(53, 15);
             this.label2.TabIndex = 1;
-            this.label2.Text = "密码 ";
+            this.label2.Text = "密 码 ";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(137, 126);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Location = new System.Drawing.Point(139, 128);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(168, 21);
+            this.textBox1.Size = new System.Drawing.Size(223, 25);
             this.textBox1.TabIndex = 2;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(137, 151);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox2.Location = new System.Drawing.Point(139, 173);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(168, 21);
+            this.textBox2.Size = new System.Drawing.Size(223, 25);
             this.textBox2.TabIndex = 3;
             this.textBox2.UseSystemPasswordChar = true;
             // 
@@ -80,10 +78,10 @@
             // 
             this.button1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.button1.Font = new System.Drawing.Font("宋体", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button1.Location = new System.Drawing.Point(113, 192);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Location = new System.Drawing.Point(113, 234);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(60, 29);
+            this.button1.Size = new System.Drawing.Size(80, 36);
             this.button1.TabIndex = 4;
             this.button1.Text = "登录";
             this.button1.UseVisualStyleBackColor = false;
@@ -93,10 +91,9 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(55, 39);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Location = new System.Drawing.Point(44, 46);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(303, 20);
+            this.label3.Size = new System.Drawing.Size(376, 25);
             this.label3.TabIndex = 5;
             this.label3.Text = "长春市地下管线数据库管理系统";
             // 
@@ -104,10 +101,10 @@
             // 
             this.buttoExit.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.buttoExit.Font = new System.Drawing.Font("宋体", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.buttoExit.Location = new System.Drawing.Point(208, 192);
-            this.buttoExit.Margin = new System.Windows.Forms.Padding(2);
+            this.buttoExit.Location = new System.Drawing.Point(266, 234);
+            this.buttoExit.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttoExit.Name = "buttoExit";
-            this.buttoExit.Size = new System.Drawing.Size(60, 29);
+            this.buttoExit.Size = new System.Drawing.Size(80, 36);
             this.buttoExit.TabIndex = 6;
             this.buttoExit.Text = "退出";
             this.buttoExit.UseVisualStyleBackColor = false;
@@ -116,19 +113,20 @@
             // msg_label
             // 
             this.msg_label.AutoSize = true;
-            this.msg_label.Location = new System.Drawing.Point(3, 225);
+            this.msg_label.Location = new System.Drawing.Point(4, 281);
+            this.msg_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.msg_label.Name = "msg_label";
-            this.msg_label.Size = new System.Drawing.Size(0, 12);
+            this.msg_label.Size = new System.Drawing.Size(0, 15);
             this.msg_label.TabIndex = 7;
             // 
             // LoginForm
             // 
             this.AcceptButton = this.button1;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(377, 242);
+            this.ClientSize = new System.Drawing.Size(469, 308);
             this.ControlBox = false;
             this.Controls.Add(this.msg_label);
             this.Controls.Add(this.buttoExit);
@@ -139,7 +137,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";

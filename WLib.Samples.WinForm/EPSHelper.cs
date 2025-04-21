@@ -25,7 +25,19 @@ namespace WLib.Samples.WinForm
     class EPSHelper
     {
         #region GDB转EPS
-
+        public static void GDBToEPS(IFeatureClass featureClass, IWorkspace workspace_EPS, string name)
+        {
+            ITable table = workspace_EPS.GetITableByName(name);
+            if (table != null)
+            {
+                EPSHelper.toEPS(featureClass, table);
+                Marshal.ReleaseComObject(table);
+            }
+            else
+            {
+                //progressBarTextLabel.Text = $"跳过{name}";
+            }
+        }
         public static void GDBToEPS(string gdb_path, string eps_path, ProgressBar progressBar1, bool CreataNewIfNotExist = true)
         {
 
@@ -42,11 +54,11 @@ namespace WLib.Samples.WinForm
             }
             IEnumerable<IFeatureClass> featureClasses = workspace_MDB.GetFeatureClasses();
 
-           progressBar1?.InvokeIfRequired(() =>
-           {
-               progressBar1.Maximum = workspace_MDB.GetFeatureClassNames().Select(x => x).Count();
-               progressBar1.Value = 0;
-           });
+            progressBar1?.InvokeIfRequired(() =>
+            {
+                progressBar1.Maximum = workspace_MDB.GetFeatureClassNames().Select(x => x).Count();
+                progressBar1.Value = 0;
+            });
 
             IWorkspace workspace_EPS = WorkspaceEx.GetWorkSpace(eps_path);
 
@@ -55,16 +67,7 @@ namespace WLib.Samples.WinForm
                 string name = featureClass.GetName();
 
                 //this.progressBarTextLabel.Text = $"开始处理{name}";
-                ITable table = workspace_EPS.GetITableByName(name);
-                if (table != null)
-                {
-                    EPSHelper.toEPS(featureClass, table);
-                    Marshal.ReleaseComObject(table);
-                }
-                else
-                {
-                    //progressBarTextLabel.Text = $"跳过{name}";
-                }
+                GDBToEPS(featureClass, workspace_EPS, name);
                 Marshal.ReleaseComObject(featureClass);
                 progressBar1?.InvokeIfRequired(() =>
                 {

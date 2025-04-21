@@ -77,6 +77,7 @@ namespace WLib.WinCtrls.ExplorerCtrl.PathFolderCtrl
             this.explorerTreeView1.CanRename = false;
             this.explorerTreeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.explorerTreeView1.Location = new System.Drawing.Point(2, 2);
+            this.explorerTreeView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.explorerTreeView1.Name = "explorerTreeView1";
             this.explorerTreeView1.SelectedPath = null;
             this.explorerTreeView1.Size = new System.Drawing.Size(298, 289);
@@ -89,7 +90,7 @@ namespace WLib.WinCtrls.ExplorerCtrl.PathFolderCtrl
             this.Controls.Add(this.explorerTreeView1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "PathFolderBrowser";
-            this.Padding = new System.Windows.Forms.Padding(2);
+            this.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Size = new System.Drawing.Size(302, 319);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

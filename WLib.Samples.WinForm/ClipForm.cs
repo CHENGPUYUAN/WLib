@@ -1,5 +1,6 @@
 ﻿using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.ConversionTools;
+using ESRI.ArcGIS.DataSourcesFile;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Geoprocessor;
@@ -34,13 +35,17 @@ namespace WLib.Samples.WinForm
         public ClipForm(IMap pMap)
         {
             InitializeComponent();
-
+            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBox1.Items.Add(SaveFormat.MDB);
             comboBox1.Items.Add(SaveFormat.DWG);
             comboBox1.Items.Add(SaveFormat.MDB_EPS);
             comboBox1.SelectedIndex = 0;
             progressBarTextLabel.Text = "";
             outFormat = SaveFormat.MDB;
+            this.textBox_in.WatermarkText = "请输入需要裁剪的数据库路径（.mdb/.gdb）";
+            this.textBox_clip.WatermarkText = "请选择裁剪范围对象（.dwg）";
+            this.textBox_out.WatermarkText = "请选择保存路径";
+            this.textBox_cad_lyr_name .WatermarkText = "请输入CAD图层名称";
         }
 
 
@@ -56,29 +61,48 @@ namespace WLib.Samples.WinForm
         private void button1_Click(object sender, EventArgs e)
         {
             IWorkspace workspace_in = WorkspaceEx.GetWorkSpace(textBox_in.Text, EWorkspaceType.Default);
+
+            if (workspace_in == null)
+            {
+                MessageBox.Show("请选择数据库！");
+                return;
+            }
+
             IEnumerable<IFeatureClass> features = workspace_in.GetFeatureClasses();
             int count = workspace_in.GetFeatureClassNames().Select(f => f).Count();
             progressBar1.Maximum = count;
             progressBar1.Value = 0;
-            IFeatureClass featureclass_clip = FeatureClassEx.FromPath(textBox_clip.Text);
+            //IFeatureClass featureclass_clip = FeatureClassEx.FromPath(textBox_clip.Text);
+            IFeatureClass featureclass_clip =  CADPolygonFeatureClass(textBox_clip.Text);
+            if (featureclass_clip == null)
+            {
+                MessageBox.Show("请选择裁剪范围对象！");
+                return;
+            }
+            this.button1.Enabled = false;
+            this.textBox_in.Enabled = false;
+            this.textBox_clip.Enabled = false;
+            this.textBox_out.Enabled = false;
 
 
-            string temp = System.IO.Path.Combine(System.IO.Path.GetTempPath().ToString(), Guid.NewGuid().ToString());
+
+            string temp = System.IO.Path.Combine(System.IO.Path.GetTempPath().ToString(), "cpy");
 
             Directory.CreateDirectory(temp);
             int i = 0;
 
             IWorkspace out_ws = null;
-
+            IWorkspace eps_ws = null;
             if (outFormat == SaveFormat.MDB)
             {
                 out_ws = WorkspaceEx.GetOrCreateWorkspace(textBox_out.Text);
             }
             else if (outFormat == SaveFormat.MDB_EPS)
             {
-                string dir = System.IO.Path.GetDirectoryName(textBox_out.Text);
-                string filename = System.IO.Path.GetFileNameWithoutExtension(textBox_out.Text);
-                out_ws = WorkspaceEx.GetOrCreateWorkspace(System.IO.Path.Combine(temp, filename));
+
+                out_ws = WorkspaceEx.CreateInMemoryWorkspace("outdb");
+                EPSHelper.CreateEPS(textBox_out.Text);
+                eps_ws = WorkspaceEx.GetWorkSpace(textBox_out.Text);
             }
 
             foreach (IFeatureClass featureClass in features)
@@ -115,7 +139,12 @@ namespace WLib.Samples.WinForm
                         Clip(featureClass,
                            featureclass_clip,
                             of);
+                        if (outFormat == SaveFormat.MDB_EPS)
+                        {
+                            EPSHelper.GDBToEPS(of, eps_ws, name);
+                        }
                         Marshal.ReleaseComObject(of);
+                        out_ws.DeleteFeatureClasses(name);
                     }
                     /**  else if (outFormat == SaveFormat.MDB_EPS)
                     {
@@ -147,19 +176,30 @@ namespace WLib.Samples.WinForm
                 Marshal.ReleaseComObject(featureClass);
                 progressBar1.Value += 1;
             }
-            if (outFormat == SaveFormat.MDB_EPS)
-            {
-                string dir = System.IO.Path.GetDirectoryName(textBox_out.Text);
-                string filename = System.IO.Path.GetFileNameWithoutExtension(textBox_out.Text);
-                EPSHelper.GDBToEPS(System.IO.Path.Combine(temp, filename), textBox_out.Text, progressBar1, true);
-            }
+            //if (outFormat == SaveFormat.MDB_EPS)
+            //{
+            //    string dir = System.IO.Path.GetDirectoryName(textBox_out.Text);
+            //    string filename = System.IO.Path.GetFileName(textBox_out.Text);
+            //    string eps = System.IO.Path.Combine(dir, "eps" + filename);
+            //    EPSHelper.GDBToEPS(textBox_out.Text, eps, progressBar1, true);
+            //    File.Delete(textBox_out.Text);
+            //    File.Move(eps, textBox_out.Text);
+            //}
             DeleteDirectory(temp);
             Marshal.ReleaseComObject(featureclass_clip);
             Marshal.ReleaseComObject(workspace_in);
             Marshal.ReleaseComObject(out_ws);
+            if (eps_ws != null)
+            {
+                Marshal.ReleaseComObject(eps_ws);
+            }
             progressBar1.Value = progressBar1.Maximum;
             //progressBarTextLabel.Text = "处理完成";
             MessageBox.Show("处理完成");
+            this.button1.Enabled = true;
+            this.textBox_in.Enabled = true;
+            this.textBox_clip.Enabled = true;
+            this.textBox_out.Enabled = true;
         }
 
         public void Clip(IFeatureClass pInputFeatureClass, IFeatureClass pClipFeatureClass, IFeatureClass targetClass)
@@ -274,28 +314,6 @@ namespace WLib.Samples.WinForm
 
         }
 
-        private void textBox1_Click(object sender, EventArgs e)
-        {
-            if (outFormat == SaveFormat.DWG)
-            {
-                FolderBrowserDialog dialog = new FolderBrowserDialog();
-                dialog.ShowNewFolderButton = true;
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    textBox_out.Text = dialog.SelectedPath;
-                }
-            }
-            else if (outFormat == SaveFormat.MDB || outFormat == SaveFormat.MDB_EPS)
-            {
-                SaveFileDialog dialog = new SaveFileDialog();
-                dialog.Filter = "mdb|*.mdb";
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    textBox_out.Text = dialog.FileName;
-                }
-            }
-        }
-
         public void toCAD(string input, string output)
         {
             Geoprocessor GP = new Geoprocessor();
@@ -306,6 +324,29 @@ namespace WLib.Samples.WinForm
             ExportCAD tool = new ExportCAD(input, type, output);
             GP.Execute(tool, null);
 
+        }
+
+        private IFeatureClass CADPolygonFeatureClass(string path)
+        {
+            string directoryPath = System.IO.Path.GetDirectoryName(path);
+            string fileName = System.IO.Path.GetFileName(path);
+             IWorkspaceFactory pWorkspaceFactory = new CadWorkspaceFactoryClass();
+            //--打开相应的工作空间，并赋值给要素空间，OpenFromFile（） 
+            //--中的参数为CAD文件夹的路径 
+            IFeatureWorkspace pFeatureWorkspace = pWorkspaceFactory.OpenFromFile(directoryPath, 0) as IFeatureWorkspace;
+            /*--打开线要素类，如果要打开点类型的要素，需要把下边的代码该成： 
+            *-- IFeatureClass pFeatureClass = pFeatureWorkspace.OpenFeatureClass (fileName + ":point"); 
+            *-- 由此可见fileName为CAD图的名字，后边加上要打开的要素类的类型，中间用冒号　　
+            *-- 隔开，大家可以想想多边形和标注是怎么打开的。 */
+            //point          polyline
+            IFeatureClass pFeatureClass = pFeatureWorkspace.OpenFeatureClass(fileName + ":"+textBox_cad_lyr_name.Text);
+            Marshal.ReleaseComObject(pFeatureWorkspace);
+            if (pFeatureClass == null)
+            {
+                MessageBox.Show("打开CAD要素类失败！");
+                return null;
+            }
+            return pFeatureClass;
         }
 
         void DeleteDirectory(string path)
@@ -326,24 +367,52 @@ namespace WLib.Samples.WinForm
 
         private void textBox_in_Click(object sender, EventArgs e)
         {
-            WorkspaceSelectorForm selectorForm = new WorkspaceSelectorForm("gdb|mdb");
-            selectorForm.StartPosition = FormStartPosition.CenterParent;
-            if (selectorForm.ShowDialog() == DialogResult.OK)
-            {
-                this.textBox_in.Text = selectorForm.workspace;
-            }
+            //WorkspaceSelectorForm selectorForm = new WorkspaceSelectorForm("gdb|mdb");
+            //selectorForm.StartPosition = FormStartPosition.CenterParent;
+            //if (selectorForm.ShowDialog() == DialogResult.OK)
+            //{
+            //    this.textBox_in.Text = selectorForm.workspace;
+            //}
         }
 
 
         private void textBox_clip_Click(object sender, EventArgs e)
         {
-            DataSelectorForm dataSelectorForm = new DataSelectorForm(EObjectFilter.FeatureLayer, false);
-            dataSelectorForm.StartPosition = FormStartPosition.CenterParent;
-            if (dataSelectorForm.ShowDialog() == DialogResult.OK)
+            //DataSelectorForm dataSelectorForm = new DataSelectorForm(EObjectFilter.FeatureLayer, false);
+            //dataSelectorForm.StartPosition = FormStartPosition.CenterParent;
+            //if (dataSelectorForm.ShowDialog() == DialogResult.OK)
+            //{
+            //    string path = dataSelectorForm.SelectWorkspacePath;
+            //    string name = dataSelectorForm.SelectedObjectName;
+            //    this.textBox_clip.Text = path + "\\" + name;
+            //}
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "dwg|*.dwg";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                string path = dataSelectorForm.SelectWorkspacePath;
-                string name = dataSelectorForm.SelectedObjectName;
-                this.textBox_clip.Text = path + "\\" + name;
+                this.textBox_clip.Text = openFileDialog.FileName;
+            }
+        }
+
+        private void textBox_out_Click(object sender, EventArgs e)
+        {
+            if (outFormat == SaveFormat.DWG)
+            {
+                FolderBrowserDialog dialog = new FolderBrowserDialog();
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    textBox_out.Text = dialog.SelectedPath;
+                }
+            }
+            else if (outFormat == SaveFormat.MDB || outFormat == SaveFormat.MDB_EPS)
+            {
+                SaveFileDialog dialog = new SaveFileDialog();
+                dialog.Filter = "mdb|*.mdb";
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    textBox_out.Text = dialog.FileName;
+                }
             }
         }
     }
